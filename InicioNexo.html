@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro del Nexo: Certificación e Identidad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Pinyon+Script&family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        cinzelDeco: ['Cinzel Decorative', 'serif'],
+                        pinyon: ['Pinyon Script', 'cursive'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .pergamino {
+            background: #ecdcb9;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0) 80%),
+                url('https://www.transparenttextures.com/patterns/parchment.png');
+            box-shadow: 
+                0 15px 40px rgba(0,0,0,0.8),
+                inset 0 0 60px rgba(139, 94, 26, 0.45);
+            border: 2px solid #d4af37;
+            color: #2c1a04;
+        }
+
+        .pergamino::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid rgba(139, 94, 26, 0.3);
+            pointer-events: none;
+        }
+
+        .tarjeta-identidad {
+            background: #121824;
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(139, 94, 26, 0.2) 0%, rgba(0,0,0,0) 60%),
+                url('https://www.transparenttextures.com/patterns/dark-matter.png');
+            border: 2px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .sello-astral {
+            border-radius: 50%;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.4), inset 0 0 15px rgba(255,255,255,0.2);
+            border: 2px ridge rgba(255,255,255,0.1);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .sello-nyctalor {
+            background: radial-gradient(#6a1b9a, #1a062c);
+            color: #e040fb;
+            box-shadow: 0 5px 15px rgba(106, 27, 154, 0.4);
+        }
+
+        .sello-aethelumes {
+            background: radial-gradient(#1e3c72, #2a5298);
+            color: #fffbdf;
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
+            border: 2px ridge #fdd835;
+        }
+
+        /* Animación de destello para ruleta cósmica */
+        @keyframes destelloGiro {
+            0% { opacity: 0.3; transform: scale(0.98); color: #8a734b; }
+            50% { opacity: 1; transform: scale(1.02); color: #d4af37; }
+            100% { opacity: 0.3; transform: scale(0.98); color: #8a734b; }
+        }
+
+        .efecto-giro {
+            animation: destelloGiro 0.15s infinite ease-in-out;
+        }
+
+        /* Animación suave para elementos interactivos */
+        .transition-all-custom {
+            transition: all 0.3s ease;
+        }
+
+        /* Ocultar barra de desplazamiento manteniendo funcionalidad */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#050811] text-[#f1e4c3] font-cinzel min-height-screen flex flex-col justify-between p-4 md:p-8 selection:bg-[#d4af37] selection:text-[#050811]">
+
+    <header class="text-center mb-8">
+        <h1 class="font-cinzelDeco text-2xl md:text-4xl text-[#d4af37] tracking-widest uppercase drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+            Registro del Nexo Celestial
+        </h1>
+        <p class="text-[#bfa15f] text-xs md:text-sm tracking-[0.3em] uppercase mt-2">
+            Oficina de Identificación y Ciudadanía Astral
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-8 items-start justify-center">
+        
+        <!-- PANEL DE CONTROL (IZQUIERDA) -->
+        <section class="w-full lg:w-[380px] bg-[#0b0f19]/90 border-2 border-[#d4af37]/30 rounded-xl p-6 shadow-2xl shrink-0">
+            <h2 class="text-lg text-[#d4af37] uppercase tracking-wider border-b border-[#8a734b]/30 pb-3 mb-6 flex items-center gap-2">
+                <span>⚙️</span> Consola de Inscripción
+            </h2>
+
+            <!-- Formulario de Entrada -->
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs text-[#bfa15f] tracking-widest uppercase font-bold mb-2">Nombre del Ciudadano</label>
+                    <input type="text" id="input-nombre" value="Aelena Starweaver" maxlength="26" class="w-full p-3 bg-[#050811] border border-[#8a734b] rounded-lg text-white font-cinzel text-sm focus:outline-none focus:border-[#d4af37] focus:shadow-[0_0_8px_rgba(212,175,55,0.4)] transition-all-custom">
+                </div>
+
+                <div>
+                    <label class="block text-xs text-[#bfa15f] tracking-widest uppercase font-bold mb-2">ID de Ciudadanía (Inmutable)</label>
+                    <input type="text" id="input-id" value="" readonly class="w-full p-3 bg-[#02040a] border border-[#d4af37]/20 rounded-lg text-[#a1824a] font-mono text-sm cursor-not-allowed text-center">
+                    <p class="text-[10px] text-[#8a734b] italic mt-1 text-center">Asignado de forma única por las Altas Luminarias</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-[#bfa15f] tracking-widest uppercase font-bold mb-2">Raza Cósmica</label>
+                    <select id="input-raza" class="w-full p-3 bg-[#050811] border border-[#8a734b] rounded-lg text-white font-cinzel text-sm focus:outline-none focus:border-[#d4af37] focus:shadow-[0_0_8px_rgba(212,175,55,0.4)] transition-all-custom">
+                        <option value="Nyct'alor">Nyct'alor (Las Galaxias)</option>
+                        <option value="Aethelumes">Aethelumes (La Luna)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-[#bfa15f] tracking-widest uppercase font-bold mb-2">Rango Estelar</label>
+                    <input type="text" id="input-rango" value="Buscador de Estrellas" maxlength="24" class="w-full p-3 bg-[#050811] border border-[#8a734b] rounded-lg text-white font-cinzel text-sm focus:outline-none focus:border-[#d4af37] focus:shadow-[0_0_8px_rgba(212,175,55,0.4)] transition-all-custom">
+                </div>
+
+                <!-- PLANETA DE ORIGEN CON INTERACTIVIDAD DE RULETA -->
+                <div>
+                    <label class="block text-xs text-[#bfa15f] tracking-widest uppercase font-bold mb-2">Planeta de Origen</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="input-origen" value="Cuna Galáctica Vega V" readonly class="flex-grow p-3 bg-[#02040a] border border-[#d4af37]/20 rounded-lg text-[#a1824a] font-cinzel text-sm cursor-not-allowed">
+                        <button type="button" id="btn-origen-aleatorio" onclick="invocarRuletaAstral()" class="bg-[#8a6d3b] hover:bg-[#d4af37] text-[#050811] font-bold px-4 rounded-lg flex items-center justify-center text-sm transition-all-custom" title="Girar Ruleta Astral">
+                            🎲
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-[#8a734b] italic mt-1 text-center">¡Pulsa el dado para invocar un destino aleatorio!</p>
+                </div>
+
+                <!-- Carga de Imagen para Tarjeta de Identidad -->
+                <div>
+                    <label class="block text-xs text-[#bfa15f] tracking-widest uppercase font-bold mb-1">Retrato para Identificación</label>
+                    <p class="text-[10px] text-[#8a734b] mb-2">Tamaño recomendado: 315x405 px (Relación 3:4)</p>
+                    <label for="input-foto" class="block w-full text-center bg-[#8a6d3b] hover:bg-[#d4af37] text-[#050811] font-bold py-2.5 px-4 rounded-lg cursor-pointer text-xs uppercase tracking-wider transition-all-custom">
+                        Subir Proyección Astral
+                    </label>
+                    <input type="file" id="input-foto" accept="image/*" class="hidden">
+                </div>
+            </div>
+
+            <!-- Botonera de Exportación -->
+            <div class="mt-8 pt-6 border-t border-[#8a734b]/30 space-y-3">
+                <button onclick="descargarCertificado()" class="w-full bg-gradient-to-r from-[#8a6d3b] to-[#d4af37] text-[#050811] py-3 px-4 rounded-lg font-bold text-xs uppercase tracking-widest shadow-[0_4px_15px_rgba(212,175,55,0.25)] hover:shadow-[0_6px_22px_rgba(212,175,55,0.45)] hover:-translate-y-0.5 transition-all-custom">
+                    Descargar Certificado 📄
+                </button>
+                <button onclick="descargarTarjeta()" class="w-full bg-transparent hover:bg-[#d4af37] text-[#d4af37] hover:text-[#050811] border border-[#d4af37] py-3 px-4 rounded-lg font-bold text-xs uppercase tracking-widest transition-all-custom">
+                    Descargar Identificación 🪪
+                </button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE VISTA PREVIA (DERECHA) -->
+        <section class="flex-1 w-full flex flex-col items-center gap-12 overflow-x-auto no-scrollbar">
+            
+            <!-- CONTENEDOR 1: EL CERTIFICADO (PERGAMINO) -->
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-[#bfa15f] tracking-[0.4em] uppercase mb-4">Vista Previa del Certificado Imperial</span>
+                
+                <div class="pergamino w-[650px] h-[750px] p-10 box-border rounded shadow-2xl relative text-center flex flex-col justify-between overflow-hidden" id="certificado-pergamino">
+                    <!-- Constelaciones de fondo muy sutiles -->
+                    <div class="absolute inset-0 opacity-[0.06] pointer-events-none bg-[radial-gradient(#000_1px,transparent_0),radial-gradient(#000_2px,transparent_0)] bg-[size:50px_50px,70px_70px] bg-[position:0_0,25px_25px]"></div>
+                    
+                    <!-- Esquinas del Marco -->
+                    <div class="absolute text-lg text-[#8a6d3b] top-5 left-5">✦</div>
+                    <div class="absolute text-lg text-[#8a6d3b] top-5 right-5">✦</div>
+                    <div class="absolute text-lg text-[#8a6d3b] bottom-5 left-5">✦</div>
+                    <div class="absolute text-lg text-[#8a6d3b] bottom-5 right-5">✦</div>
+
+                    <!-- Cabecera del Pergamino -->
+                    <div>
+                        <div class="text-3xl text-[#8a6d3b] mb-1" id="view-emblema-cert">✨</div>
+                        <h3 class="font-cinzelDeco text-[20px] text-[#4a3319] tracking-[0.15em] uppercase m-0">Certificado de Ciudadanía</h3>
+                        <div class="text-[10px] tracking-[0.4em] text-[#7d6342] uppercase mt-1">Alianza del Nexo Celestial</div>
+                    </div>
+
+                    <!-- Declaración -->
+                    <div class="my-2 leading-relaxed">
+                        <p class="text-[12px] text-[#4f361a] max-w-[90%] mx-auto mb-1">
+                            Por decreto de las Altas Luminarias y bajo la protección del firmamento eterno, se hace constar ante el cosmos que pertenece con pleno derecho y honor al Nexo:
+                        </p>
+                        
+                        <!-- Nombre del Ciudadano (Suficiente espacio vertical con padding y sin recorte de desbordamiento) -->
+                        <div class="font-pinyon text-5xl md:text-6xl text-[#1a2a3a] pt-4 pb-6 leading-relaxed inline-block max-w-[95%] border-b border-dashed border-[#8b5e1a]/30 px-6 overflow-visible" id="view-nombre-cert">
+                            Aelena Starweaver
+                        </div>
+                        
+                        <!-- Datos Celestes del Pergamino -->
+                        <div class="grid grid-cols-2 gap-x-6 gap-y-3 max-w-[85%] mx-auto mt-6 text-left border-t border-[#8b5e1a]/15 pt-4 text-[13px]">
+                            <div class="text-[#4a3319] min-w-0">
+                                <strong class="block font-cinzel text-[10px] tracking-wider text-[#8a6d3b] uppercase mb-0.5">Código de Ciudadanía</strong>
+                                <span id="view-id-cert" class="font-mono text-[#1a2a3a] block pb-1 truncate">CÓDIGO</span>
+                            </div>
+                            <div class="text-[#4a3319] min-w-0">
+                                <strong class="block font-cinzel text-[10px] tracking-wider text-[#8a6d3b] uppercase mb-0.5">Raza Cósmica</strong>
+                                <span id="view-raza-cert" class="font-bold block pb-1 truncate">Nyct'alor</span>
+                            </div>
+                            <div class="text-[#4a3319] min-w-0">
+                                <strong class="block font-cinzel text-[10px] tracking-wider text-[#8a6d3b] uppercase mb-0.5">Rango Estelar</strong>
+                                <span id="view-rango-cert" class="block pb-1 truncate">Buscador de Estrellas</span>
+                            </div>
+                            <div class="text-[#4a3319] min-w-0">
+                                <strong class="block font-cinzel text-[10px] tracking-wider text-[#8a6d3b] uppercase mb-0.5">Planeta de Origen</strong>
+                                <span id="view-origen-cert" class="block pb-1 truncate">Cuna Galáctica Vega V</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Firmas y Sello Oficial -->
+                    <div class="flex justify-between items-center px-4 pb-4">
+                        <div class="text-center w-40">
+                            <div class="font-pinyon text-3xl text-[#3a2d1d] h-12 pb-2 leading-normal overflow-visible truncate">Hoslie</div>
+                            <div class="border-t border-[#8b5e1a]/40 text-[9px] tracking-widest text-[#7d6342] uppercase pt-1">Firma Autorizada</div>
+                        </div>
+
+                        <!-- Sello de Cera Astral -->
+                        <div class="sello-astral sello-nyctalor w-16 h-16 shrink-0 flex items-center justify-center text-2xl" id="view-sello-cert">
+                            <span id="sello-icono-cert" class="transition-all-custom">✨</span>
+                        </div>
+
+                        <div class="text-center w-40">
+                            <div class="font-pinyon text-3xl text-[#3a2d1d] h-12 pb-2 leading-normal overflow-visible truncate" id="view-firma-usuario">A. Starweaver</div>
+                            <div class="border-t border-[#8b5e1a]/40 text-[9px] tracking-widest text-[#7d6342] uppercase pt-1">Firma del Portador</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENEDOR 2: LA TARJETA DE IDENTIFICACIÓN -->
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-[#bfa15f] tracking-[0.4em] uppercase mb-4">Vista Previa de la Tarjeta de Identidad</span>
+                
+                <div class="tarjeta-identidad w-[500px] h-[300px] p-5 rounded-2xl relative flex flex-col justify-between overflow-hidden" id="tarjeta-nexo">
+                    
+                    <!-- Fondo de Constelaciones sutiles -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none text-xs text-[#d4af37] tracking-[25px]">
+                        ✦ 🌙 ✨ ✦ ✨ 🌙
+                    </div>
+
+                    <!-- Cabecera -->
+                    <div class="flex justify-between items-center border-b border-[#d4af37]/40 pb-2 z-10">
+                        <div>
+                            <h4 class="text-base text-[#f1e4c3] tracking-widest uppercase m-0 font-bold">Identidad del Nexo</h4>
+                            <p class="text-[9px] text-[#bfa15f] tracking-widest uppercase m-0">Pase de Ciudadanía Interdimensional</p>
+                        </div>
+                        <div class="text-2xl text-[#d4af37]" id="view-emblema-card">✨</div>
+                    </div>
+
+                    <!-- Datos y Foto -->
+                    <div class="flex gap-5 my-3 z-10 flex-grow items-center min-w-0">
+                        <!-- Recuadro para la Foto -->
+                        <div class="w-[105px] h-[135px] border-1.5 border-dashed border-[#bfa15f] rounded-lg bg-white/[0.03] flex overflow-hidden justify-center items-center relative shadow-[inset_0_0_10px_rgba(0,0,0,0.5)] shrink-0">
+                            <img id="preview-foto" src="" alt="Retrato" class="w-full h-full object-cover hidden">
+                            <div class="flex flex-col justify-center items-center text-[#d4af37]/40 text-[8px] uppercase tracking-wider text-center" id="foto-placeholder">
+                                <span class="text-3xl mb-1">✨</span>
+                                <span>Proyección</span>
+                                <span>Astral</span>
+                            </div>
+                        </div>
+
+                        <!-- Bloques de Información (Ajustados con pb-1.5 y leading-relaxed para evitar cortes) -->
+                        <div class="grid grid-cols-2 gap-x-2 gap-y-1.5 flex-grow min-w-0">
+                            <div class="col-span-2 min-w-0">
+                                <label class="block text-[8px] text-[#8a734b] tracking-wider uppercase mb-0.5">Nombre del Portador</label>
+                                <div id="view-nombre-card" class="text-base text-white font-bold drop-shadow-[0_0_5px_rgba(255,255,255,0.2)] leading-relaxed pb-1 truncate">Aelena Starweaver</div>
+                            </div>
+                            
+                            <div class="min-w-0">
+                                <label class="block text-[8px] text-[#8a734b] tracking-wider uppercase mb-0.5">ID Universal</label>
+                                <div id="view-id-card" class="text-xs text-[#f1e4c3] font-mono font-bold leading-relaxed pb-1 truncate">#992-LUNA</div>
+                            </div>
+
+                            <div class="min-w-0">
+                                <label class="block text-[8px] text-[#8a734b] tracking-wider uppercase mb-0.5">Raza Cósmica</label>
+                                <div id="view-raza-card" class="text-xs text-[#f1e4c3] font-bold leading-relaxed pb-1 truncate">Nyct'alor</div>
+                            </div>
+
+                            <div class="min-w-0">
+                                <label class="block text-[8px] text-[#8a734b] tracking-wider uppercase mb-0.5">Fecha de Emisión</label>
+                                <div class="text-xs text-[#f1e4c3] font-bold leading-relaxed pb-1 truncate">Era Cósmica 04</div>
+                            </div>
+
+                            <div class="min-w-0">
+                                <label class="block text-[8px] text-[#8a734b] tracking-wider uppercase mb-0.5">Origen / Planeta</label>
+                                <div id="view-origen-card" class="text-xs text-[#f1e4c3] font-bold leading-relaxed pb-1 truncate">Cuna Galáctica Vega V</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pie de la Tarjeta -->
+                    <div class="flex justify-between items-end z-10 w-full min-w-0 gap-2 pb-1">
+                        <div class="font-mono text-[9px] text-[#d4af37] tracking-[2px] bg-black/30 px-2 py-1 rounded border-l-2 border-[#d4af37] shrink-0">
+                            |||*|•|🌙|•|*|||
+                        </div>
+                        <div class="text-[9px] bg-gradient-to-r from-[#8a6d3b] to-[#d4af37] text-[#050811] px-3 py-1.5 rounded-full font-black tracking-wider uppercase truncate max-w-[200px]" id="view-rango-card">
+                            Buscador de Estrellas
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="text-center mt-12 text-[#8a734b] text-[10px] tracking-[0.2em] uppercase">
+        Amparado por la Carta de Derechos del Nexo Celestial © Era Cósmica 04
+    </footer>
+
+    <!-- SCRIPT DE PROGRAMACIÓN E INTERACTIVIDAD -->
+    <script>
+        const inNombre = document.getElementById('input-nombre');
+        const inId = document.getElementById('input-id');
+        const inRaza = document.getElementById('input-raza');
+        const inRango = document.getElementById('input-rango');
+        const inOrigen = document.getElementById('input-origen');
+        const inFoto = document.getElementById('input-foto');
+        const btnOrigenAleatorio = document.getElementById('btn-origen-aleatorio');
+
+        const vNombreCert = document.getElementById('view-nombre-cert');
+        const vIdCert = document.getElementById('view-id-cert');
+        const vRazaCert = document.getElementById('view-raza-cert');
+        const vRangoCert = document.getElementById('view-rango-cert');
+        const vOrigenCert = document.getElementById('view-origen-cert');
+        const vFirmaUsuario = document.getElementById('view-firma-usuario');
+        const vSelloCert = document.getElementById('view-sello-cert');
+        const vSelloIconoCert = document.getElementById('sello-icono-cert');
+        const vEmblemaCert = document.getElementById('view-emblema-cert');
+
+        const vNombreCard = document.getElementById('view-nombre-card');
+        const vIdCard = document.getElementById('view-id-card');
+        const vRazaCard = document.getElementById('view-raza-card');
+        const vRangoCard = document.getElementById('view-rango-card');
+        const vOrigenCard = document.getElementById('view-origen-card');
+        const vEmblemaCard = document.getElementById('view-emblema-card');
+        const imgFoto = document.getElementById('preview-foto');
+        const fotoPlaceholder = document.getElementById('foto-placeholder');
+
+        // BANCO DE PLANETAS SEGÚN EL LORE DE LAS RAZAS
+        const planetasNyctalor = [
+            "Nebulosa de Andrómeda IV",
+            "Cúmulo Estelar Perseo",
+            "Sinfonía del Vacío IX",
+            "Abismo de Caelum Prime",
+            "Nube de Oort Profunda",
+            "Estrella Binaria Kepler",
+            "Púlsar Vela-9",
+            "Sextante de Sombras III",
+            "Cuna Galáctica Vega V",
+            "Súper-Vacío de Eridano"
+        ];
+
+        const planetasAethelumes = [
+            "Selene Prime",
+            "Mar de la Tranquilidad",
+            "Santuario de Alabastro",
+            "Luna de Cristal Lira VII",
+            "Valle de los Destellos",
+            "Cráter de Helio Solar",
+            "Cresta de Plata Astrea",
+            "Satelite Luminiscente II",
+            "Archipiélago de Éter IV",
+            "Corona del Alba Lunar"
+        ];
+
+        // Función para generar ID celestial inalterable
+        function generarIDCelestial() {
+            const prefijos = ["NEX", "LUN", "AST", "STE", "COS"];
+            const prefijoAleatorio = prefijos[Math.floor(Math.random() * prefijos.length)];
+            const tiempoUnico = Date.now().toString().slice(-5); // Milisegundos exactos
+            const azarSufijo = Math.floor(100 + Math.random() * 900); // 3 dígitos aleatorios
+            return `${prefijoAleatorio}-${tiempoUnico}-${azarSufijo}`;
+        }
+
+        // Asignar ID único inicial e idéntico para ambos documentos
+        const idCompartido = generarIDCelestial();
+        inId.value = idCompartido;
+        vIdCert.textContent = idCompartido;
+        vIdCard.textContent = "#" + idCompartido;
+
+        // Función de ruleta/giro astral para el Planeta de Origen
+        let girando = false;
+        function invocarRuletaAstral() {
+            if (girando) return; // Evitar múltiples giros a la vez
+            girando = true;
+            btnOrigenAleatorio.disabled = true;
+
+            const razaActual = inRaza.value;
+            const listaPlanetas = razaActual === "Nyct'alor" ? planetasNyctalor : planetasAethelumes;
+            
+            // Añadir animación visual temporal al input
+            inOrigen.classList.add('efecto-giro');
+
+            let contador = 0;
+            const intervaloGiro = setInterval(() => {
+                // Muestra nombres aleatorios a velocidad estelar
+                const indiceTemporal = Math.floor(Math.random() * listaPlanetas.length);
+                inOrigen.value = listaPlanetas[indiceTemporal];
+                vOrigenCert.textContent = listaPlanetas[indiceTemporal];
+                vOrigenCard.textContent = listaPlanetas[indiceTemporal];
+                contador++;
+
+                if (contador > 12) { // Detener ruleta después de unos destellos
+                    clearInterval(intervaloGiro);
+                    
+                    // Elegir destino cósmico final definitivo
+                    const planetaDefinitivo = listaPlanetas[Math.floor(Math.random() * listaPlanetas.length)];
+                    inOrigen.value = planetaDefinitivo;
+                    vOrigenCert.textContent = planetaDefinitivo;
+                    vOrigenCard.textContent = planetaDefinitivo;
+                    
+                    // Quitar efectos de giro y habilitar botón
+                    inOrigen.classList.remove('efecto-giro');
+                    btnOrigenAleatorio.disabled = false;
+                    girando = false;
+                }
+            }, 100);
+        }
+
+        // Ejecutar un giro de planeta inicial al cargar
+        invocarRuletaAstral();
+
+        // Sincronización del Nombre y firma simplificada
+        inNombre.addEventListener('input', function() {
+            const nombreActual = inNombre.value || "Sin Nombre";
+            vNombreCert.textContent = nombreActual;
+            vNombreCard.textContent = nombreActual;
+            
+            // Generador de firma simplificada (Ej: Aelena Starweaver -> A. Starweaver)
+            const partes = nombreActual.trim().split(" ");
+            if (partes.length > 0 && partes[0] !== "") {
+                const inicial = partes[0].charAt(0).toUpperCase();
+                const apellido = partes.length > 1 ? " " + partes[partes.length - 1] : "";
+                vFirmaUsuario.textContent = `${inicial}.${apellido}`;
+            } else {
+                vFirmaUsuario.textContent = "";
+            }
+        });
+
+        // Sincronización de Rango
+        inRango.addEventListener('input', function() {
+            const rangoActual = inRango.value || "Habitante";
+            vRangoCert.textContent = rangoActual;
+            vRangoCard.textContent = rangoActual;
+        });
+
+        // Evento de Cambio de Raza (Re-asigna paleta de colores y sugiere girar ruleta de nuevo)
+        inRaza.addEventListener('change', function() {
+            const razaElegida = inRaza.value;
+            vRazaCert.textContent = razaElegida;
+            vRazaCard.textContent = razaElegida;
+
+            if (razaElegida === "Nyct'alor") {
+                // Estilo Galaxias: Púrpura y destellos cósmicos
+                vSelloCert.className = "sello-astral sello-nyctalor w-16 h-16 shrink-0 flex items-center justify-center text-2xl";
+                vSelloIconoCert.textContent = "✨";
+                vEmblemaCert.textContent = "✨";
+                vEmblemaCard.textContent = "✨";
+                vRazaCert.style.color = "#6a1b9a";
+            } else if (razaElegida === "Aethelumes") {
+                // Estilo Luna: Azul estelar y lunas crecientes
+                vSelloCert.className = "sello-astral sello-aethelumes w-16 h-16 shrink-0 flex items-center justify-center text-2xl";
+                vSelloIconoCert.textContent = "🌙";
+                vEmblemaCert.textContent = "🌙";
+                vEmblemaCard.textContent = "🌙";
+                vRazaCert.style.color = "#1e3c72";
+            }
+
+            // Al cambiar de raza se autoejecuta la ruleta para sugerir un planeta de origen de la nueva raza
+            invocarRuletaAstral();
+        });
+
+        // Carga de retrato
+        inFoto.addEventListener('change', function() {
+            const archivo = this.files[0];
+            if (archivo) {
+                const lector = new FileReader();
+                lector.onload = function(e) {
+                    imgFoto.src = e.target.result;
+                    imgFoto.classList.remove('hidden');
+                    fotoPlaceholder.classList.add('hidden');
+                }
+                lector.readAsDataURL(archivo);
+            }
+        });
+
+        // Descarga de Certificado (Pergamino)
+        function descargarCertificado() {
+            const pergamino = document.getElementById('certificado-pergamino');
+            html2canvas(pergamino, {
+                useCORS: true,
+                scale: 2, 
+                backgroundColor: null
+            }).then(canvas => {
+                const enlace = document.createElement('a');
+                enlace.download = `Certificado_Nexo_${inNombre.value.replace(/\s+/g, '_')}.png`;
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+            });
+        }
+
+        // Descarga de Tarjeta de Identidad
+        function descargarTarjeta() {
+            const tarjeta = document.getElementById('tarjeta-nexo');
+            html2canvas(tarjeta, {
+                useCORS: true,
+                scale: 2, 
+                backgroundColor: null
+            }).then(canvas => {
+                const enlace = document.createElement('a');
+                enlace.download = `Identificacion_Nexo_${inNombre.value.replace(/\s+/g, '_')}.png`;
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+            });
+        }
+    </script>
+</body>
+</html>
